@@ -1,23 +1,62 @@
-import logo from './logo.svg';
 import './App.css';
+import React, {useState} from "react";
+import { evaluate } from 'mathjs';
 
 function App() {
+  const [value, setValue] = useState("");
+  const [isCalculated, setIsCalculated] = useState(false);
+  const [isEvaluated, setIsEvaluated] = useState(0);
+
+  const handleClick = (e) => {
+    if(e.target.value === "C"){
+      setValue("");
+      setIsCalculated(false);
+    }
+    else if(e.target.value === "="){
+      calculate();
+    }else{
+      setValue(prev => prev + e.target.value);
+    }
+  }
+  // console.log(value);
+
+  const calculate = () => {
+
+    const expression = value;
+    const calculation = evaluate(expression);
+    setIsCalculated(true);
+    // console.log(calculation);
+        if(value === ""){
+      setIsEvaluated("Error");
+    }else{
+      setIsEvaluated(calculation);
+    }
+    // setValue("");
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>React Calculator</h1>
+      <input value={value}></input>
+      {isCalculated && <p>{isEvaluated}</p>}
+      <div className="buttons">
+        <button value="7" className='button' onClick={(e) => handleClick(e)}>7</button>
+        <button value="8" className='button' onClick={(e) => handleClick(e)}>8</button>
+        <button value="9" className='button' onClick={(e) => handleClick(e)}>9</button>
+        <button value="+" className='button' onClick={(e) => handleClick(e)}>+</button>
+        <button value="4" className='button' onClick={(e) => handleClick(e)}>4</button>
+        <button value="5" className='button' onClick={(e) => handleClick(e)}>5</button>
+        <button value="6" className='button' onClick={(e) => handleClick(e)}>6</button>
+        <button value="-" className='button' onClick={(e) => handleClick(e)}>-</button>
+        <button value="1" className='button' onClick={(e) => handleClick(e)}>1</button>
+        <button value="2" className='button' onClick={(e) => handleClick(e)}>2</button>
+        <button value="3" className='button' onClick={(e) => handleClick(e)}>3</button>
+        <button value="*" className='button' onClick={(e) => handleClick(e)}>*</button>
+        <button value="C" className='button' onClick={(e) => handleClick(e)}>C</button>
+        <button value="0" className='button' onClick={(e) => handleClick(e)}>0</button> 
+        <button value="=" className='button' onClick={(e) => handleClick(e)}>=</button> 
+        <button value="/" className='button' onClick={(e) => handleClick(e)}>/</button> 
+      </div>
     </div>
   );
 }
